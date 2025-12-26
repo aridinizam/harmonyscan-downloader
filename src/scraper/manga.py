@@ -140,11 +140,15 @@ class MangaScraper:
             title = title.strip()
             logger.info(f"Found manga: {title}")
             
-            # Cover image
+            # Cover image - try data-src first (lazy loading)
             cover_url = None
             cover_elem = page.locator(selectors.MANGA_COVER)
             if await cover_elem.count() > 0:
-                cover_url = await cover_elem.first.get_attribute("src") or await cover_elem.first.get_attribute("data-src")
+                # Try data-src first (actual image), then fall back to src
+                cover_url = await cover_elem.first.get_attribute("data-src") or await cover_elem.first.get_attribute("src")
+                # Filter out placeholder images
+                if cover_url and "dflazy.jpg" in cover_url:
+                    cover_url = await cover_elem.first.get_attribute("data-src")
             
             # Rating
             rating = None
