@@ -12,13 +12,19 @@ import re
 
 from . import selectors
 
-# Setup logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s [%(levelname)s] %(message)s',
-    datefmt='%H:%M:%S'
-)
+# Logger instance - level controlled by setup_logging()
 logger = logging.getLogger(__name__)
+
+
+def setup_logging(enable: bool = False):
+    """Configure logging based on user preference."""
+    level = logging.DEBUG if enable else logging.WARNING
+    logging.basicConfig(
+        level=level,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        datefmt='%H:%M:%S',
+        force=True  # Override any existing config
+    )
 
 
 @dataclass

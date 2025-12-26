@@ -132,6 +132,7 @@ python main.py download "https://harmony-scan.fr/manga/your-manga/" -o ./my-mang
 | `--format` | `-f` | Output format: `images`, `pdf`, or `cbz` |
 | `--keep-images` | `-k` | Keep original images after conversion |
 | `--output` | `-o` | Custom output directory |
+| `--verbose` | `-v` | Enable debug logging |
 
 ### Configuration Commands
 
@@ -154,6 +155,7 @@ Settings are stored in `config.json` and can be modified via the interactive men
 | `keep_images` | `true` | Keep images after PDF/CBZ conversion |
 | `max_concurrent_chapters` | `3` | Parallel chapter downloads |
 | `max_concurrent_images` | `5` | Parallel image downloads per chapter |
+| `enable_logs` | `false` | Enable debug logging (clean output by default) |
 
 ## 🏗️ Architecture
 

@@ -145,13 +145,14 @@ def prompt_settings_menu(config) -> Optional[str]:
     console.print(f"  [3] Keep Images")
     console.print(f"  [4] Concurrent Chapters")
     console.print(f"  [5] Concurrent Images")
-    console.print(f"  [6] ← Back to Main Menu")
+    console.print(f"  [6] Enable Logs")
+    console.print(f"  [7] ← Back to Main Menu")
     console.print()
     
     choice = Prompt.ask(
         f"[{COLORS['accent']}]Select option[/]",
-        choices=["1", "2", "3", "4", "5", "6"],
-        default="6"
+        choices=["1", "2", "3", "4", "5", "6", "7"],
+        default="7"
     )
     
     return {
@@ -160,7 +161,8 @@ def prompt_settings_menu(config) -> Optional[str]:
         "3": "keep_images",
         "4": "max_concurrent_chapters",
         "5": "max_concurrent_images",
-        "6": None
+        "6": "enable_logs",
+        "7": None
     }[choice]
 
 
@@ -190,6 +192,12 @@ def prompt_setting_value(setting_key: str, current_value):
     elif setting_key in ("max_concurrent_chapters", "max_concurrent_images"):
         return IntPrompt.ask(
             f"[{COLORS['accent']}]Value (1-10)[/]",
+            default=current_value
+        )
+    
+    elif setting_key == "enable_logs":
+        return Confirm.ask(
+            f"[{COLORS['accent']}]Enable debug logging?[/]",
             default=current_value
         )
     

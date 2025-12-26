@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from src.cli.app import HarmonyScanApp, run_app
 from src.cli.display import print_banner, print_info, print_error, print_success, console, COLORS, create_download_progress
-from src.scraper.manga import MangaScraper
+from src.scraper.manga import MangaScraper, setup_logging
 from src.downloader.manager import DownloadManager
 from src.converters.pdf import convert_to_pdf
 from src.converters.cbz import convert_to_cbz
@@ -49,9 +49,13 @@ def download(
     chapters: str = typer.Option("all", "-c", "--chapters", help="Chapters to download: 'all', single number, or range (e.g., '1-10')"),
     format: str = typer.Option("images", "-f", "--format", help="Output format: images, pdf, cbz"),
     keep_images: bool = typer.Option(True, "-k", "--keep-images", help="Keep images after conversion"),
-    output: Optional[Path] = typer.Option(None, "-o", "--output", help="Output directory")
+    output: Optional[Path] = typer.Option(None, "-o", "--output", help="Output directory"),
+    verbose: bool = typer.Option(False, "-v", "--verbose", help="Enable debug logging")
 ):
     """Download manga chapters directly from command line."""
+    # Setup logging (verbose flag or config setting)
+    setup_logging(verbose or config.enable_logs)
+    
     # Run the async download
     asyncio.run(_download_async(url, chapters, format, keep_images, output))
 

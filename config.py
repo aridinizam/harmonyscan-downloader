@@ -19,6 +19,7 @@ class Config:
     keep_images: bool = True
     max_concurrent_chapters: int = 3
     max_concurrent_images: int = 5
+    enable_logs: bool = False  # Disabled by default for clean output
     
     @classmethod
     def load(cls) -> "Config":

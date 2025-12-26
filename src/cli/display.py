@@ -109,7 +109,7 @@ def print_manga_info(manga: MangaInfo):
     console.print(panel)
 
 
-def print_chapter_list(chapters: List[Chapter], show_limit: int = 10):
+def print_chapter_list(chapters: List[Chapter]):
     """Display chapter list in a table."""
     table = Table(
         title=f"[bold {COLORS['primary']}]Available Chapters ({len(chapters)} total)[/]",
@@ -122,21 +122,10 @@ def print_chapter_list(chapters: List[Chapter], show_limit: int = 10):
     table.add_column("Chapter", style="white")
     table.add_column("Views", justify="right", style=COLORS['muted'])
     
-    # Show first few and last few if too many
-    if len(chapters) <= show_limit:
-        display_chapters = [(i, ch) for i, ch in enumerate(chapters, 1)]
-    else:
-        half = show_limit // 2
-        display_chapters = [(i, ch) for i, ch in enumerate(chapters[:half], 1)]
-        display_chapters.append((None, None))  # Ellipsis marker
-        display_chapters.extend([(i, ch) for i, ch in enumerate(chapters[-half:], len(chapters) - half + 1)])
-    
-    for idx, chapter in display_chapters:
-        if chapter is None:
-            table.add_row("...", f"... {len(chapters) - show_limit} more chapters ...", "...")
-        else:
-            views = f"{chapter.views:,}" if chapter.views else "-"
-            table.add_row(str(idx), chapter.title, views)
+    # Show all chapters
+    for i, chapter in enumerate(chapters, 1):
+        views = f"{chapter.views:,}" if chapter.views else "-"
+        table.add_row(str(i), chapter.title, views)
     
     console.print(table)
 
@@ -190,6 +179,7 @@ def print_settings(config):
     table.add_row("Keep Images", "Yes" if config.keep_images else "No")
     table.add_row("Max Concurrent Chapters", str(config.max_concurrent_chapters))
     table.add_row("Max Concurrent Images", str(config.max_concurrent_images))
+    table.add_row("Enable Logs", "Yes" if config.enable_logs else "No")
     
     console.print(table)
 

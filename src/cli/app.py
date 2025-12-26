@@ -20,7 +20,7 @@ from .prompts import (
     prompt_keep_images, prompt_save_settings, prompt_continue,
     prompt_main_menu, prompt_settings_menu, prompt_setting_value
 )
-from ..scraper.manga import MangaScraper, Chapter
+from ..scraper.manga import MangaScraper, Chapter, setup_logging
 from ..downloader.manager import DownloadManager, DownloadProgress
 from ..converters.pdf import convert_to_pdf
 from ..converters.cbz import convert_to_cbz
@@ -36,6 +36,9 @@ class HarmonyScanApp:
     
     def run(self):
         """Run the main application loop."""
+        # Setup logging based on config
+        setup_logging(self.config.enable_logs)
+        
         print_banner()
         
         # Run the async main loop
